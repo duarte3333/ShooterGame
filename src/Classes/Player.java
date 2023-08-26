@@ -1,26 +1,36 @@
 package Classes;
+import Interface.IColision;
 import Interface.IDraw;
 import Interface.IUpdate;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
-public class Player extends ObjectBase implements KeyListener , IDraw, IUpdate {
+public class Player extends ObjectBase implements KeyListener , IDraw, IUpdate, IColision {
     char direction = 'R';
+    boolean alive = true;
 
+    //Constructor
     Player(){
+        life = 100;
         box.x = 100;
         box.y = 900;
         box.setSize(50, 50);
+        System.out.println(life);
+
     }
 
+    //Interface Methods
     @Override
     public void draw(Graphics g){
         g.setColor(Color.green);
-        g.fillOval(box.x, box.y, box.width, box.height);
+        if (alive)
+            g.fillOval(box.x, box.y, box.width, box.height);
     }
 
-    public void move() {
+    @Override
+    public void update() {
         switch(direction) {
             case 'U':
                 if ((box.y >= 750) && box.y <= 900)
@@ -40,13 +50,42 @@ public class Player extends ObjectBase implements KeyListener , IDraw, IUpdate {
                 break;
         }
     }
-    //Setters
 
     @Override
-    public void keyTyped(KeyEvent keyEvent) {
-
+    public Rectangle getBoundingBox() {
+        return null;
     }
 
+    public void colision(ArrayList<IColision> colisionObj) {
+        for (IColision obj : colisionObj) {
+            if (obj != this) {
+                if (box.intersects(obj.getBoundingBox())) {
+                    life -= 10;
+                    System.out.println(life);
+                    if (life == 0)
+                        alive = false;
+                }
+            }
+        }
+    }
+    //Getters
+    public int getX(){
+        return this.box.x;
+    }
+
+    public int getY(){
+        return this.box.y;
+    }
+
+    public int getWidth(){
+        return this.box.width;
+    }
+
+    public int getHeight(){
+        return this.box.height;
+    }
+
+    //Keys
     @Override
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
@@ -62,20 +101,15 @@ public class Player extends ObjectBase implements KeyListener , IDraw, IUpdate {
             case KeyEvent.VK_DOWN:
                 direction = 'D';
                 break;
-            case KeyEvent.VK_SPACE:
-                //Shoot a = new Shoot(getX(), getY(), GameUnits);
-                //shots.add(a);
-                break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        System.out.println("keyReleased");
+        //System.out.println("keyReleased");
     }
 
     @Override
-    public void update() {
-        move();
+    public void keyTyped(KeyEvent keyEvent) {
     }
 }

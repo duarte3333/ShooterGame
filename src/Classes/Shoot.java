@@ -1,42 +1,54 @@
 package Classes;
 
+import Interface.IColision;
+import Interface.IDraw;
+import Interface.IUpdate;
+
 import java.awt.*;
+import java.util.ArrayList;
 
-public class Shoot extends ObjectBase{
-    private int shootY;
-    private int shootX;
-    int GameUnits;
-
-    Shoot(int xPlayer,int yPlayer, int Units){
-        this.GameUnits = Units;
-        box.x = xPlayer;
-        box.y = yPlayer;
-        setShootY(yPlayer - 25);
+public class Shoot extends ObjectBase implements IDraw, IUpdate, IColision {
+    char direction;
+    int deltaY;
+    int deltaX;
+    Color color;
+    Shoot(int x, int y, int width, int height, char direction, Color color){
+        box.x = x + width/2;
+        box.y = y;
+        box.setSize(1, 10);
+        deltaX = 5;
+        deltaY = 10;
+        this.color = color;
+        this.direction = direction;
     }
+
+    @Override
     public void draw(Graphics g){
-        g.setColor(Color.red);
-        g.drawLine(getShootX() + GameUnits/2, getShootY(), getShootX() + + GameUnits/2, getShootY() - 10);
-        if (getShootY() > 0)
-            setShootY(getShootY() - 20);
+        g.setColor(this.color);
+        g.drawRect(box.x, box.y, box.width, box.height);
     }
 
-    public boolean isOffScreen() {
-        return getShootY() <= 0;
-    }
-    //Setters
-    public void setShootY(int shoot){
-        this.shootY = shoot;
+    @Override
+    public void update(){
+        if (box.y >= -10){
+            switch (direction){
+                case('U'):
+                    box.y = box.y - deltaY;
+                    break;
+                case('D'):
+                    box.y = box.y + deltaY;
+                    box.x = box.x + deltaX;
+                    break;
+            }
+        }
     }
 
-    public void setShootX(int shoot){
-        this.shootX = shoot;
+    @Override
+    public void colision(ArrayList<IColision> colisionObj) {
     }
 
-    public int getShootX(){
-        return (this.shootX);
+    public Rectangle getBoundingBox() {
+        return box;
     }
 
-    public int getShootY(){
-        return (this.shootY);
-    }
 }
