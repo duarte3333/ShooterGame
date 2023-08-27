@@ -8,8 +8,9 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 public class Player extends ObjectBase implements KeyListener , IDraw, IUpdate, IColision {
-    char direction = 'R';
+    char direction = 'S';
     boolean alive = true;
+    ObjectBase colisionObj;
 
     //Constructor
     Player(){
@@ -31,42 +32,28 @@ public class Player extends ObjectBase implements KeyListener , IDraw, IUpdate, 
 
     @Override
     public void update() {
-        switch(direction) {
-            case 'U':
-                if ((box.y >= 750) && box.y <= 900)
+        Rectangle a = new Rectangle(box);
+
+            switch(direction) {
+                case 'U':
                     box.y = (box.y - box.height);
-                break;
-            case 'D':
-                if ((box.y >= 700) && box.y <= 850 )
+                    break;
+                case 'D':
                     box.y = (box.y + box.height);
-                break;
-            case 'L':
-                if (box.x >= 100 && box.x <= 900)
+                    break;
+                case 'L':
                     box.x = (box.x - box.width);
-                break;
-            case 'R':
-                if (box.x >= 50 && (box.x <= 850))
+                    break;
+                case 'R':
                     box.x = (box.x + box.width);
-                break;
-        }
-    }
-
-    @Override
-    public Rectangle getBoundingBox() {
-        return null;
-    }
-
-    public void colision(ArrayList<IColision> colisionObj) {
-        for (IColision obj : colisionObj) {
-            if (obj != this) {
-                if (box.intersects(obj.getBoundingBox())) {
-                    life -= 10;
-                    System.out.println(life);
-                    if (life == 0)
-                        alive = false;
-                }
+                    break;
             }
-        }
+        colisionObj = Scene.main.checkColision(this);
+        if (colisionObj != null && colisionObj instanceof WallMap)
+            box = a;
+    }
+
+    public void colision(ObjectBase colisionObj) {
     }
     //Getters
     public int getX(){

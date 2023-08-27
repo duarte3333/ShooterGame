@@ -1,5 +1,6 @@
 package Classes;
 
+import Interface.IColision;
 import Interface.IDraw;
 import Interface.IUpdate;
 
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class WallMap extends ObjectBase implements KeyListener, IDraw, IUpdate
+public class WallMap extends ObjectBase implements IDraw, IColision
 {
     char direction = 'R';
     WallMap(int x, int y, int width, int height){
@@ -24,23 +25,7 @@ public class WallMap extends ObjectBase implements KeyListener, IDraw, IUpdate
     }
 
     @Override
-    public void update() {
-
-    }
-
-    //Keys
-    @Override
-    public void keyTyped(KeyEvent keyEvent) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent keyEvent) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent keyEvent) {
+    public void colision(ObjectBase colisionObj) {
 
     }
 }

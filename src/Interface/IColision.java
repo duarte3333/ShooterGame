@@ -4,6 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public interface IColision {
-    Rectangle getBoundingBox();
-    void colision(ArrayList<IColision> colisionObj);
+    void colision(ObjectBase colisionObj);
+    Object getBoundingBox();
 }

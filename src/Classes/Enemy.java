@@ -1,11 +1,12 @@
 package Classes;
 import Interface.IColision;
 import Interface.IDraw;
+import Interface.IUpdate;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Enemy extends ObjectBase implements IDraw, IColision {
+public class Enemy extends ObjectBase implements IDraw, IColision, IUpdate {
     //Constructor
     Enemy(int x, int y, int playerY, int pLayerX){
         box.x = x;
@@ -20,14 +21,13 @@ public class Enemy extends ObjectBase implements IDraw, IColision {
     }
 
     @Override
-    public Rectangle getBoundingBox() {
-        return box;
+    public void colision(ObjectBase colisionObj ) {
     }
 
     @Override
-    public void colision(ArrayList<IColision> colisionObj) {
+    public void update(){
+        Scene.addObject(new Shoot(getX(), getY(), getWidth(), getHeight(), 'D', Color.red));
     }
-
     //Getters
     public int getX(){
         return this.box.x;

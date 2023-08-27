@@ -44,7 +44,11 @@ public class Shoot extends ObjectBase implements IDraw, IUpdate, IColision {
     }
 
     @Override
-    public void colision(ArrayList<IColision> colisionObj) {
+    public void colision(ObjectBase colisionObj) {
+        if (this.color == Color.RED)
+            colisionObj.life -= 10;
+        if (colisionObj instanceof WallMap)
+            Scene.main.remove(this);
     }
 
     public Rectangle getBoundingBox() {
